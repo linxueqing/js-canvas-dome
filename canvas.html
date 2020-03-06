@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Canvas画板</title>
+    <link rel="stylesheet" href="sytle.css" />
+  </head>
+  <body>
+    <canvas id="canvas"></canvas>
+    <script>
+      var canvas = document.getElementById("canvas");
+      canvas.width = document.documentElement.clientWidth;
+      canvas.height = document.documentElement.clientHeight;
+      var ctx = canvas.getContext("2d");
+      let paint = false;
+      let last;
+      ctx.fillStyle = "black";
+      ctx.strokeStyle = "black";
+      ctx.lineWidth = 4;
+      ctx.lineCap = "round";
+      //   判断是不是触屏
+      var isTouch = "ontouchstart" in document.documentElement;
+      if (isTouch) {
+        canvas.ontouchstart = e => {
+          let x = e.touches[0].clientX;
+          let y = e.touches[0].clientY;
+          paint = true;
+          last = [x, y];
+        };
+        canvas.ontouchmove = e => {
+          if (paint === true) {
+            let x = e.touches[0].clientX;
+            let y = e.touches[0].clientY;
+            drawLine(last[0], last[1], x, y);
+            last = [x, y];
+          }
+        };
+      } else {
+        canvas.onmousedown = e => {
+          paint = true;
+          last = [e.clientX, e.clientY];
+        };
+
+        canvas.onmousemove = e => {
+          if (paint === true) {
+            drawLine(last[0], last[1], e.clientX, e.clientY);
+            last = [e.clientX, e.clientY];
+          }
+        };
+
+        canvas.onmouseup = () => {
+          paint = false;
+        };
+      }
+      function drawLine(x1, y1, x2, y2) {
+        ctx.beginPath();
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(x2, y2);
+        ctx.stroke();
+      }
+    </script>
+  </body>
+</html>

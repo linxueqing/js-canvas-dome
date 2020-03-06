@@ -4,9 +4,28 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>画板</title>
+    <title>DIV画板</title>
+    <link rel="stylesheet" href="sytle.css" />
   </head>
   <body>
-    hi
+    <div id="wrapper">hi</div>
+    <script>
+      // onclick 点击的时候画点，独立的点
+      // 移动的时候画点，断断续续的点，js操作dom非常慢，跨线程交流
+      wrapper.onmousemove = e => {
+        let div = document.createElement("div");
+        div.style.position = "absolute";
+        div.style.left = e.clientX + "px";
+        div.style.top = e.clientY + "px";
+        div.style.border = "1px solid black";
+        div.style.width = "6px";
+        div.style.height = "6px";
+        div.style.marginLeft = "-3px";
+        div.style.marginTop = "-3px";
+        div.style.borderRadius = "50%";
+        div.style.background = "#000";
+        wrapper.appendChild(div);
+      };
+    </script>
   </body>
 </html>
